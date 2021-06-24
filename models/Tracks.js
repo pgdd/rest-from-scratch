@@ -23,6 +23,21 @@ const findAll = async (qs) => {
     return results
 }
 
+const findAllTracksByAlbum = async (album_id) => {
+    console.log("I am in my custom method")
+    console.log(album_id);
+    let query = `
+        SELECT DISTINCT tr.*, al.title as album
+        FROM tracks tr
+        LEFT JOIN albums al
+            ON tr.album_id = al.id
+            WHERE tr.album_id = ?;
+    `
+    let [ results ] = await db.query(query, [album_id])
+    return results
+ 
+}
+
 const updateById = async (id, data) => {
     console.log("I want to update this", id, "with this", data)
     let query = 'UPDATE tracks SET ? WHERE ?'
@@ -43,5 +58,6 @@ module.exports = {
     findById,
     findAll,
     updateById,
-    deleteById
+    deleteById,
+    findAllTracksByAlbum
 }

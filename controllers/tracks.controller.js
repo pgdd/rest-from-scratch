@@ -44,9 +44,17 @@ const show = async (req, res, next) => {
 
 const index = async (req, res, next) => {
     log("I am in Tracks controller, at list tracks")
+
     // Go get all the tracks
     // and res, with a list
+    console.log(req.params.album_id)
+    if(req.params.album_id) {
+        console.log("it is a nested routes from album!")
+        return next()
+    }
+
     try {
+ 
         let tracks = await Tracks.findAll()
         res.status(200).json(tracks)
     
@@ -56,7 +64,20 @@ const index = async (req, res, next) => {
             error
         })
     }
-  
+}
+
+const indexByAlbum = async (req, res, next) => {
+    console.log("I am in index by album")
+    const { album_id } = req.params
+    try {
+        let tracks = await Tracks.findAllTracksByAlbum(album_id)
+        res.status(200).json(tracks)
+    } catch (error) {
+        res.status(404).send({
+            message: "Could not get discorgrapy",
+            error
+        })
+    }
 }
 
 const update = async (req, res, next) => {
@@ -101,6 +122,7 @@ module.exports =  {
     create,
     show,
     index,
+    indexByAlbum,
     update,
     destroy
 }

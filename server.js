@@ -8,6 +8,8 @@ app.use(express.json());
 
 app.use("/api", routes)
 
+
+
 app.listen(port, () => {
     log(`I am running on ${port}`)
 })

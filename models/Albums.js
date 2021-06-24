@@ -23,6 +23,8 @@ const findAll = async (qs) => {
     return results
 }
 
+
+
 const updateById = async (id, data) => {
     console.log("I want to update this", id, "with this", data)
     let query = 'UPDATE albums SET ? WHERE ?'

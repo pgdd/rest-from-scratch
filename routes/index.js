@@ -4,7 +4,6 @@ const router = express.Router();
 const albumsRoutes = require('./albums.routes')
 const tracksRoutes = require('./tracks.routes')
 
-
 router.use("/albums", albumsRoutes)
 router.use("/tracks", tracksRoutes)
 

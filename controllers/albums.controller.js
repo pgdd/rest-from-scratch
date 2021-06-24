@@ -71,8 +71,6 @@ const update = async (req, res, next) => {
             error
         })
     }
-
-
 }
 
 const destroy = async (req, res, next) => {

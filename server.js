@@ -11,3 +11,8 @@ app.use("/api", routes)
 app.listen(port, () => {
     log(`I am running on ${port}`)
 })
+
+// 
+// /api/albums
+// /api/tracks
+// /api/albums/:id/tracks

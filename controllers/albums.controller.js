@@ -1,54 +1,96 @@
 const { log } = console
 const Albums = require("../models/Albums")
-const create = (req, res, next) => {
+const create = async (req, res, next) => {
     log("I am in Album controller, at create")
     const { body } = req;
-
-    let album = Albums.save(body)
-
+    try {
+        let album = await Albums.save(body)
+        res.status(201).json(album)
+    }
+    catch(error) {
+        res.status(400).send({
+            message: "Could not create album",
+            error
+        })
+    }
+    // console.log(album)
    // save in db please !
    // and the, res with ok 
-    res.json(album)
+   
 }
 
-const show = (req, res, next) => {
+const show = async (req, res, next) => {
     log("I am in Album controller, at show One album")
     const { id } = req.params
+    console.log("here")
     console.log(id)
     // ...go get the album with this id
+    try {
+        let album = await Albums.findById(id)
+        res.status(206).json(album)
+    } catch (error) {
+        res.status(404).send({
+            message: "Could not create album",
+            error
+        })
+    }
 
-    let album = Albums.findById(id)
     // and then, res with the album
-    res.json(album)
+   
 }
 
-const index = (req, res, next) => {
+const index = async (req, res, next) => {
     log("I am in Album controller, at list albums")
     // Go get all the albums
     // and res, with a list
-    let albums = Albums.findAll()
-    res.json(albums)
-
+    try {
+        let albums = await Albums.findAll()
+        res.status(200).json(albums)
+    
+    } catch (error) {
+        res.status(404).send({
+            message: "Could not get discorgrapy",
+            error
+        })
+    }
+  
 }
 
-const update = (req, res, next) => {
+const update = async (req, res, next) => {
     log("I am in Album controller, at update one album")
     const { id } = req.params
     const { body } = req
-    let album = Albums.updateById(id, body)
-    // go to update the album with this id, by changing thoses values..
-    // ...and then returns ok, or the newly updated album
-    res.json(album)
+    try {
+        let album = await Albums.updateById(id, body)
+        // go to update the album with this id, by changing thoses values..
+        // ...and then returns ok, or the newly updated album
+        res.status(206).json(album)
+    } catch(error) {
+        res.status(400).send({
+            message: "Could not get discorgrapy",
+            error
+        })
+    }
+
+
 }
 
-const destroy = (req, res, next) => {
+const destroy = async (req, res, next) => {
     log("I am in Album controller, at destroy one album")
     const { id } = req.params
+    try {
+        let deleted = await Albums.deleteById(id)
+        // go to update the album with this id, by changing thoses values..
+        // ...and then returns ok, or the newly updated album
+        res.status(204).json(deleted)
+    } catch(error) {
+        res.status(400).send({
+            message: "Could not get discorgrapy",
+            error
+        })
+    }
 
-    let deleted = Albums.deleteById(id)
-    console.log(id)
     // go in to the database, and delete the album with this id, and returns ok...?
-    res.json(deleted)
 }
 
 
